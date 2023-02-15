@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+ PROJECT=so-20232-gcc
+
+ docker ps | grep $PROJECT --silent
+
+ if [ "$?" -ne 0 ]; then
+     docker build -t $PROJECT .
+     docker run --detach \
+ 	   --name $PROJECT \
+ 	   --volume $PWD:/app \
+ 	   --workdir /app \
+ 	   --rm $PROJECT \
+ 	   sleep 1d
+ fi
+
+ docker exec -it $PROJECT bash
